@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Contact{% endblock %}
+{% block content %}
+<section class="page narrow">
+  <h1>Send a message</h1>
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% for cat, m in msgs %}<p class="toast {{ cat }}" role="status">{{ m }}</p>{% endfor %}
+  {% endwith %}
+  <form method="post" class="form">
+    <label>Your name<input name="name" autocomplete="name"></label>
+    <label>Message<textarea name="message" rows="5"></textarea></label>
+    <button class="btn" type="submit">Send message</button>
+  </form>
+</section>
+{% endblock %}

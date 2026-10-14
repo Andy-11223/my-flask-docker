@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Features{% endblock %}
+{% block content %}
+<section class="page">
+  <h1>What is inside the container</h1>
+  <p class="lead">Open each one to see what it does.</p>
+  <div class="rows">
+    {% for t, d in [
+      ('Flask routes', 'Each page is a small Python function in app.py that returns a template. Add a route to add a page.'),
+      ('Jinja templates', 'Every page extends base.html, so the navigation and footer live in one place.'),
+      ('Static files', 'CSS and JavaScript sit in the static folder and are served by Flask without extra setup.'),
+      ('Docker image', 'One Dockerfile installs Flask, copies the code and starts the server on port 5000.')] %}
+    <div class="row">
+      <button class="row-head" aria-expanded="false">{{ t }}<span class="plus"></span></button>
+      <div class="row-body"><p>{{ d }}</p></div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
