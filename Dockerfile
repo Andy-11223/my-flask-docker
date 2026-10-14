@@ -1,20 +1,34 @@
-# 1. Start from an official Python image
-FROM python:3.11-slim
+# Dockerfile (production)
+# ---------- Stage 1: Build ----------
+FROM python:3.11 AS builder
 
-# 2. Set working directory inside container
 WORKDIR /app
 
-# 3. Copy dependencies first (better caching)
 COPY requirements.txt .
+RUN pip install --no-cache-dir --user -r requirements.txt
 
-# 4. Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# ---------- Stage 2: Runtime ----------
+FROM python:3.11-slim
 
-# 5. Copy the rest of the app
+# Create non-root user for security
+RUN useradd --create-home --shell /bin/bash appuser
+
+WORKDIR /app
+
+# Copy installed packages from builder
+COPY --from=builder /root/.local /home/appuser/.local
+
+# Copy application code
 COPY . .
 
-# 6. Expose port (documentation only)
+# Set ownership
+RUN chown -R appuser:appuser /app
+USER appuser
+
+ENV PATH=/home/appuser/.local/bin:$PATH
+ENV PYTHONUNBUFFERED=1
+
 EXPOSE 5000
 
-# 7. Command to run when container starts
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+# Production-grade WSGI server
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "app:app"]

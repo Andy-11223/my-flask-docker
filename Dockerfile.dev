@@ -1,0 +1,16 @@
+# Dockerfile.dev
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Note: We do NOT copy app code here.
+# Code will be mounted via docker-compose volume for hot-reload.
+
+EXPOSE 5000
+
+# Flask dev server with auto-reload
+CMD ["flask", "--app", "app", "run", "--host=0.0.0.0", "--port=5000", "--reload"]

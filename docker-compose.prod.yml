@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile              # ← production image
+    ports:
+      - "5001:5000"                       # different port so it doesn't clash
+    restart: unless-stopped
