@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Harbor{% endblock %} | Flask + Docker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="nav">
+    <a class="logo" href="{{ url_for('index') }}"><span class="logo-box"></span>Harbor</a>
+    <nav>
+      {% for ep, label in [('index','Home'),('features','Features'),('deploy','Deploy'),('about','About'),('contact','Contact')] %}
+<a href="{{ url_for(ep) }}" {% if request.endpoint == ep %}aria-current="page"{% endif %}>{{ label }}</a>
+{% endfor %}
+    </nav>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="foot">Harbor runs on Flask inside a Docker container. 🐳</footer>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

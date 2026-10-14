@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Deploy{% endblock %}
+{% block content %}
+<section class="page">
+  <h1>Ship it in three steps</h1>
+  <p class="lead">Run these in the project folder.</p>
+  <ol class="steps">
+    <li><h2>Build the image</h2><div class="code"><code>docker build -t harbor .</code><button class="copy">Copy</button></div></li>
+    <li><h2>Start the container</h2><div class="code"><code>docker run -p 5000:5000 harbor</code><button class="copy">Copy</button></div></li>
+    <li><h2>Open the site</h2><div class="code"><code>http://localhost:5000</code><button class="copy">Copy</button></div></li>
+  </ol>
+</section>
+{% endblock %}
